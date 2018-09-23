@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using static System.Text.Encoding;
 using Formatting = Newtonsoft.Json.Formatting;
 
 namespace ConsoleApp1
@@ -44,7 +45,7 @@ namespace ConsoleApp1
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Не указан путь до файла");
+                Console.WriteLine("Don't indicated file path");
                 Console.ReadLine();
                 return;
             }
@@ -68,7 +69,7 @@ namespace ConsoleApp1
 
                 using (FileStream fstream = new FileStream($"{args[0]}{outputFileName}", FileMode.OpenOrCreate))
                 {
-                    byte[] array = System.Text.Encoding.Default.GetBytes(jsonText);
+                    byte[] array = Default.GetBytes(jsonText);
                     fstream.Write(array, 0, array.Length);
                 }
             }
