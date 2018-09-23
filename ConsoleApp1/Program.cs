@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Formatting = Newtonsoft.Json.Formatting;
@@ -45,7 +40,6 @@ namespace ConsoleApp1
 
     class Program
     {
-
         static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -59,21 +53,22 @@ namespace ConsoleApp1
             string inputFileName = Console.ReadLine();
             Console.WriteLine("Write output filename with extension: ");
             string outputFileName = Console.ReadLine();
-            string json = string.Empty;
+            string jsonText = string.Empty;
+
             try
             {
                 using (FileStream sr = new FileStream(args[0] + inputFileName, FileMode.OpenOrCreate))
                 {
                     XmlSerializer formatter = new XmlSerializer(typeof(Capability));
-                    var kek = formatter.Deserialize(sr);
-                    json = JsonConvert.SerializeObject(kek, Formatting.Indented,
+                    var xmlText = formatter.Deserialize(sr);
+                    jsonText = JsonConvert.SerializeObject(xmlText, Formatting.Indented,
                         new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
-                    Console.WriteLine(json);
+                    Console.WriteLine(jsonText);
                 }
 
                 using (FileStream fstream = new FileStream($"{args[0]}{outputFileName}", FileMode.OpenOrCreate))
                 {
-                    byte[] array = System.Text.Encoding.Default.GetBytes(json);
+                    byte[] array = System.Text.Encoding.Default.GetBytes(jsonText);
                     fstream.Write(array, 0, array.Length);
                 }
             }
